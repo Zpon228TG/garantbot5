@@ -3,7 +3,7 @@ import json
 import os
 
 # Инициализация бота
-bot_token = '6516052648:AAERsQ_Eduhlsjifm457rUy73KwGEZzkdTg'
+bot_token = '6910923926:AAFcgCawjsfhuxVzWetDBSCuau4nuIybFnU'
 admin_id = 6578018656 # Ваш ID Telegram
 channel_id = '@GameDevAssetsHub'  # ID канала, куда будет отправляться сообщение
 bot = telebot.TeleBot(bot_token)
