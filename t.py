@@ -5,7 +5,7 @@ from datetime import datetime
 
 # Инициализация бота
 bot_token = '6910923926:AAFcgCawjsfhuxVzWetDBSCuau4nuIybFnU'
-admin_id = 6578018656 # Ваш ID Telegram
+admin_id = 6578018656  # Ваш ID Telegram
 channel_id = '@GameDevAssetsHub'  # ID канала, куда будет отправляться сообщение
 bot = telebot.TeleBot(bot_token)
 
@@ -62,15 +62,17 @@ def main_menu():
 def send_payment_request(message):
     if message.chat.id == admin_id:
         markup = telebot.types.InlineKeyboardMarkup()
-        markup.add(telebot.types.InlineKeyboardButton("🔘 Начислить 0.01₽", callback_data="add_payment"))
+        # В callback_data передаем ID пользователя, чтобы потом его идентифицировать
+        markup.add(telebot.types.InlineKeyboardButton("🔘 Начислить 0.01₽", callback_data=f"add_payment_{message.chat.id}"))
         bot.send_message(channel_id, "Для начисления нажмите на кнопку снизу:", reply_markup=markup)
     else:
         bot.send_message(message.chat.id, "У вас нет доступа к этой функции.")
 
 # Обработка нажатия на инлайн-кнопку "Начислить 0.01₽"
-@bot.callback_query_handler(func=lambda call: call.data == "add_payment")
+@bot.callback_query_handler(func=lambda call: call.data.startswith("add_payment_"))
 def add_payment_callback(call):
-    user_id = str(call.message.chat.id)
+    # Извлекаем ID пользователя из callback_data
+    user_id = call.data.split('_')[2]
     if user_id in data:
         data[user_id]['balance'] += 0.01
         save_data(data)
