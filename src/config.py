@@ -19,7 +19,7 @@ class Config(BaseSettings):
     API_ID: int
     API_HASH: str
     USER_SUBSCRIBE_CHANNEL_ID: int = -1002327532594
-    USER_SUBSCRIBE_CHANNEL_LINK: str = https://t.me/grabberX5
+    USER_SUBSCRIBE_CHANNEL_LINK: str = "https://t.me/grabberX5"
 
     DAY_1_SUBSCRIPTION_PRICE: int = 250
     DAY_30_SUBSCRIPTION_PRICE: int = 450
