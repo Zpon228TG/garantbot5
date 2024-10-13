@@ -39,7 +39,7 @@ user_app = Client("my_account", api_id=config.API_ID, api_hash=config.API_HASH, 
 
 
 async def run_client():
-    await user_app.start()
+    user_app.start()
 
 
 loop = asyncio.get_event_loop()
