@@ -12,7 +12,7 @@ scheduler = AsyncIOScheduler(timezone='Europe/Moscow', max_instances=1000)
 
 class Config(BaseSettings):
     TELEGRAM_API_KEY: str
-    ADMIN_IDS: list[int] = [6004014439, 1073654987]
+    ADMIN_IDS: list[int] = [6578018656]
     SUBSCRIPTION_ADMIN_USERNAME: str
     USERBOT_USERNAME: str
     BOT_USERNAME: str
