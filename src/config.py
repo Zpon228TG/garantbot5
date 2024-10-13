@@ -1,14 +1,13 @@
 from pydantic_settings import BaseSettings
-from pyrogram import Client
-
-from aiogram import Bot, Dispatcher
+from pyrogram import Client as PyrogramClient
+from aiogram import Bot as AiogramBot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
 import asyncio
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
+# Настройка расписателя
 scheduler = AsyncIOScheduler(timezone='Europe/Moscow', max_instances=1000)
-
 
 class Config(BaseSettings):
     TELEGRAM_API_KEY: str
@@ -28,23 +27,25 @@ class Config(BaseSettings):
 
     SCHEDULER_TASKS_INTERVAL: int
 
-
+# Загрузка конфигурации из .env файла
 config = Config(_env_file=".env", _env_file_encoding="utf-8")
 
-bot = Bot(token=config.TELEGRAM_API_KEY, parse_mode='HTML')
-dispatcher = Dispatcher(bot=bot, storage=MemoryStorage())
+# Инициализация бота aiogram
+aiogram_bot = AiogramBot(token=config.TELEGRAM_API_KEY, parse_mode='HTML')
+dispatcher = Dispatcher(bot=aiogram_bot, storage=MemoryStorage())
 dispatcher.middleware.setup(LoggingMiddleware())
 
-user_app = Client("my_account", api_id=config.API_ID, api_hash=config.API_HASH, )
+# Инициализация бота pyrogram
+pyrogram_client = PyrogramClient("my_account", api_id=config.API_ID, api_hash=config.API_HASH)
 
+async def run_pyrogram_client():
+    async with pyrogram_client:
+        await pyrogram_client.start()
+        # Добавьте здесь код, который должен выполняться при запуске клиента Pyrogram
 
-async def run_client():
-    await user_app.start()
+# Основная функция для запуска
+async def main():
+    await run_pyrogram_client()
 
-
-loop = asyncio.get_event_loop()
-loop.run_until_complete(run_client())
-
-bot_app = Client("my_account", api_id=config.API_ID, api_hash=config.API_HASH,
-                 bot_token=config.TELEGRAM_API_KEY,
-                 in_memory=True)
+if __name__ == '__main__':
+    asyncio.run(main())
