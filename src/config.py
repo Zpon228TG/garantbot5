@@ -3,6 +3,7 @@ from pyrogram import Client as PyrogramClient
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
+from aiogram.types import BotCommand  # Убедитесь, что импорт правильный
 import asyncio
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
@@ -35,6 +36,14 @@ bot = Bot(token=config.TELEGRAM_API_KEY, parse_mode='HTML')
 dispatcher = Dispatcher(bot=bot, storage=MemoryStorage())
 dispatcher.middleware.setup(LoggingMiddleware())
 
+# Установка команд бота
+async def set_commands():
+    commands = [
+        BotCommand(command="/start", description="Start the bot"),
+        BotCommand(command="/help", description="Help command"),
+    ]
+    await bot.set_my_commands(commands)
+
 # Инициализация клиента pyrogram
 user_app = PyrogramClient("my_account", api_id=config.API_ID, api_hash=config.API_HASH)
 
@@ -42,12 +51,11 @@ user_app = PyrogramClient("my_account", api_id=config.API_ID, api_hash=config.AP
 async def run_pyrogram_client():
     await user_app.start()
     print("Pyrogram client started")
-    # Здесь можно добавить ваши обработчики сообщений для Pyrogram
 
 # Основная функция для запуска
 async def main():
     await run_pyrogram_client()
-    # Запускаем aiogram
+    await set_commands()  # Устанавливаем команды после запуска клиента
     await dispatcher.start_polling()
 
 if __name__ == '__main__':
