@@ -45,6 +45,6 @@ async def run_client():
 loop = asyncio.get_event_loop()
 loop.run_until_complete(run_client())
 
-bot_app = Client("my_account", api_id=config.API_ID, api_hash=config.API_HASH,
-                 bot_token=config.TELEGRAM_API_KEY,
+bot_app = Client("my_account", api_id=21619878, api_hash=7229cba001a73991540500b0ba92f463,
+                 bot_token=7579905472:AAFAPLUnFR5AeW6gea_8o8QXLD0WqCHhB_o,
                  in_memory=True)
