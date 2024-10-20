@@ -1,7 +1,8 @@
 import requests
 
-from ..bot_settings import settings
-
+def some_function():
+    from ..bot_settings import settings
+    # Используй settings
 
 class DonationAlertsAPI:
     def __init__(self, api_token: str) -> None:
