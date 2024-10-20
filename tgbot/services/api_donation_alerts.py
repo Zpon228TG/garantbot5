@@ -1,8 +1,5 @@
 import requests
-
-def some_function():
-    from ..bot_settings import settings
-    # Используй settings
+from ..bot_settings import settings  # Импортируй settings глобально
 
 class DonationAlertsAPI:
     def __init__(self, api_token: str) -> None:
@@ -15,14 +12,12 @@ class DonationAlertsAPI:
         :param amount: Сумма пополнения баланса в профиле.
         :return: Платежная ссылка.
         """
-
         url = "https://www.donationalerts.com/api/v1/alerts/donations"
-
         headers = {
             "Authorization": f"Bearer {self.api_token}"
         }
-
         requests.get(url=url, headers=headers)
 
 
+# Используй settings для создания экземпляра API
 API_Donation_alerts = DonationAlertsAPI(api_token=settings.DONATION_ALERTS_API_TOKEN)
